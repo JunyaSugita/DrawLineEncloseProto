@@ -94,7 +94,7 @@ void Stage::EncloseGrid(int lowNum, int highNum)
 		{
 			//囲い始め(歩かれたマスで、囲ったwalkNumの間のマスであれば)
 			if (!isEnclose[0] && !isEnclose[1] &&
-				itrX->get()->GetWalkNum() < highNum && itrX->get()->GetWalkNum() > lowNum &&
+				itrX->get()->GetWalkNum() < highNum && itrX->get()->GetWalkNum() >= lowNum &&
 				itrX->get()->GetIsPainted())
 			{
 				isEnclose[0] = true;
@@ -104,7 +104,7 @@ void Stage::EncloseGrid(int lowNum, int highNum)
 			else if (isEnclose[0])
 			{
 				//囲ったwalkNumの間のマスに到達したら、塗り終わる
-				if (itrX->get()->GetWalkNum() < highNum && itrX->get()->GetWalkNum() > lowNum)
+				if (itrX->get()->GetWalkNum() < highNum && itrX->get()->GetWalkNum() >= lowNum)
 				{
 					isEnclose[0] = false;
 					break;

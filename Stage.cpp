@@ -79,7 +79,6 @@ void Stage::OnTheGrid(Vector2 pos, int walkNum)
 		//塗られたフラグをオン
 		itrX->get()->SetIsPainted(true);
 	}
-
 	//カウントセット
 	itrX->get()->SetWalkNum(walkNum);
 }
@@ -113,7 +112,6 @@ void Stage::EncloseGrid(int lowNum, int highNum)
 		}
 
 		//塗っていく
-
 		for (std::list< std::unique_ptr<Grid>>::iterator itrX = itrY->begin(); itrX != itrY->end(); itrX++)
 		{
 			//囲い始め(歩かれたマスで、囲ったwalkNumの間のマスであれば)
@@ -143,6 +141,5 @@ void Stage::EncloseGrid(int lowNum, int highNum)
 
 
 		}
-		
 	}
 }

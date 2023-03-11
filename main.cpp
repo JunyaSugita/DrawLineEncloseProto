@@ -1,13 +1,15 @@
 #include "DxLib.h"
+#include "Gamescene.h"
+
 
 // ウィンドウのタイトルに表示する文字列
 const char TITLE[] = "Proto";
 
 // ウィンドウ横幅
-const int WIN_WIDTH = 600;
+const int WIN_WIDTH = Stage::stageWidth;
 
 // ウィンドウ縦幅
-const int WIN_HEIGHT = 400;
+const int WIN_HEIGHT = Stage::stageHeight;
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine,
                    _In_ int nCmdShow) {
@@ -48,6 +50,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	// 1ループ(フレーム)前のキーボード情報
 	char oldkeys[256] = {0};
 
+	//ゲームシーン
+	Gamescene gameScene;
+	gameScene.Initialize();
+
 	// ゲームループ
 	while (true) {
 		// 最新のキーボード情報だったものは1フレーム前のキーボード情報として保存
@@ -64,9 +70,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//---------  ここからプログラムを記述  ----------//
 
 		// 更新処理
-
+		gameScene.Update();
 
 		// 描画処理
+		gameScene.Draw();
 
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面

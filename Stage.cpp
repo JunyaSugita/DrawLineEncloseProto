@@ -79,6 +79,7 @@ void Stage::OnTheGrid(Vector2 pos, int walkNum)
 		//塗られたフラグをオン
 		itrX->get()->SetIsPainted(true);
 	}
+
 	//カウントセット
 	itrX->get()->SetWalkNum(walkNum);
 }
@@ -96,6 +97,11 @@ void Stage::EncloseGrid(int lowNum, int highNum)
 	for (std::list<std::list< std::unique_ptr<Grid>>>::iterator itrY = stageGrids.begin(); itrY != stageGrids.end(); itrY++)
 	{
 		//x軸
+		//列終わったらリセット
+		isEnclose[1] = false;
+		isEnclose[0] = false;
+		countX = 0;
+		innerNumCount = 0;
 
 		//先ずは範囲内のカウントの数を調べる
 		for (std::list< std::unique_ptr<Grid>>::iterator itrX = itrY->begin(); itrX != itrY->end(); itrX++)
@@ -107,6 +113,7 @@ void Stage::EncloseGrid(int lowNum, int highNum)
 		}
 
 		//塗っていく
+
 		for (std::list< std::unique_ptr<Grid>>::iterator itrX = itrY->begin(); itrX != itrY->end(); itrX++)
 		{
 			//囲い始め(歩かれたマスで、囲ったwalkNumの間のマスであれば)
@@ -136,10 +143,6 @@ void Stage::EncloseGrid(int lowNum, int highNum)
 
 
 		}
-		//列終わったらリセット
-		isEnclose[1] = false;
-		isEnclose[0] = false;
-		countX = 0;
-		innerNumCount = 0;
+		
 	}
 }

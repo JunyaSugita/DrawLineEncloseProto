@@ -16,8 +16,8 @@ void Player::Update()
 	oldPos = pos;
 
 	//à⁄ìÆ
-	pos.x += ((int)(CheckHitKey(KEY_INPUT_RIGHT) || CheckHitKey(KEY_INPUT_D)) - (int)(CheckHitKey(KEY_INPUT_LEFT) || CheckHitKey(KEY_INPUT_A))) * 2;
-	pos.y += ((int)(CheckHitKey(KEY_INPUT_DOWN) || CheckHitKey(KEY_INPUT_S)) - (int)(CheckHitKey(KEY_INPUT_UP) || CheckHitKey(KEY_INPUT_W))) * 2;
+	pos.x += ((int)(CheckHitKey(KEY_INPUT_RIGHT) || CheckHitKey(KEY_INPUT_D)) - (int)(CheckHitKey(KEY_INPUT_LEFT) || CheckHitKey(KEY_INPUT_A))) * 2.0f;
+	pos.y += ((int)(CheckHitKey(KEY_INPUT_DOWN) || CheckHitKey(KEY_INPUT_S)) - (int)(CheckHitKey(KEY_INPUT_UP) || CheckHitKey(KEY_INPUT_W))) * 2.0f;
 
 	//êßå¿
 	pos.x = clamp(pos.x, 0.0f, (float)Stage::stageWidth);

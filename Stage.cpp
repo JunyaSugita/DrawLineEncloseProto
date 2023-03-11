@@ -8,6 +8,8 @@ Stage& Stage::GetInstance()
 
 void Stage::Initialize()
 {
+	stageGrids.clear();
+
 	//位置用のカウント
 	int countY = 0;
 	int countX = 0;
@@ -86,10 +88,25 @@ void Stage::EncloseGrid(int lowNum, int highNum)
 	//囲う用のフラグ
 	bool isEnclose[2] = { false,false };
 
+	int countX = 0;
+	//範囲内に含まれているカウントの数
+	int innerNumCount = 0;
+
 	//まずy軸
 	for (std::list<std::list< std::unique_ptr<Grid>>>::iterator itrY = stageGrids.begin(); itrY != stageGrids.end(); itrY++)
 	{
 		//x軸
+
+		//先ずは範囲内のカウントの数を調べる
+		for (std::list< std::unique_ptr<Grid>>::iterator itrX = itrY->begin(); itrX != itrY->end(); itrX++)
+		{
+			if (itrX->get()->GetWalkNum() < highNum && itrX->get()->GetWalkNum() >= lowNum)
+			{
+				innerNumCount++;
+			}
+		}
+
+		//塗っていく
 		for (std::list< std::unique_ptr<Grid>>::iterator itrX = itrY->begin(); itrX != itrY->end(); itrX++)
 		{
 			//囲い始め(歩かれたマスで、囲ったwalkNumの間のマスであれば)
@@ -103,18 +120,26 @@ void Stage::EncloseGrid(int lowNum, int highNum)
 			//囲う途中
 			else if (isEnclose[0])
 			{
-				//囲ったwalkNumの間のマスに到達したら、塗り終わる
-				if (itrX->get()->GetWalkNum() < highNum && itrX->get()->GetWalkNum() >= lowNum)
+				//囲ったwalkNumの間のマスに到達したら、塗り終わる(範囲内のカウントが一個だけだった時も)
+				if (itrX->get()->GetWalkNum() < highNum && itrX->get()->GetWalkNum() >= lowNum || innerNumCount < 2)
 				{
 					isEnclose[0] = false;
 					break;
 				}
 
 				itrX->get()->SetIsPainted(true);
+				//itrX->get()->SetWalkNum(highNum);
 			}
+
+			//カウント
+			countX++;
+
+
 		}
 		//列終わったらリセット
 		isEnclose[1] = false;
 		isEnclose[0] = false;
+		countX = 0;
+		innerNumCount = 0;
 	}
 }

@@ -36,5 +36,7 @@ public:
 
 	//“h‚é
 	void OnTheGrid(Vector2 pos, int walkNum = 0);
+	//ˆÍ‚Ü‚ê‚½‚Æ‚±‚ë‚ð“h‚é
+	void EncloseGrid(int beforeNum, int nowNum);
 };
 

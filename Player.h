@@ -6,8 +6,13 @@ class Player
 private:
 	//座標
 	Vector2 pos;
+	Vector2 oldPos;
 	//
 	float radius = 3;
+
+	//囲う用の歩いたカウント
+	int walkCount = 0;
+
 public:
 	void Initialize(Vector2 pos);
 

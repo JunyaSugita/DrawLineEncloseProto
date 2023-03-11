@@ -69,4 +69,6 @@ void Stage::OnTheGrid(Vector2 pos, int walkNum)
 
 	//塗られたフラグをオン
 	itrX->get()->SetIsPainted(true);
+	//カウントセット
+	itrX->get()->SetWalkNum(walkNum);
 }

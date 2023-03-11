@@ -9,9 +9,6 @@ void Gamescene::Initialize()
 void Gamescene::Update()
 {
 	player.Update();
-
-	//“h‚é
-	Stage::GetInstance().OnTheGrid(player.GetPos());
 }
 
 void Gamescene::Draw()

@@ -11,6 +11,8 @@ public:
 	//ステージサイズ
 	static const int stageWidth = 600;
 	static const int stageHeight = 360;
+	
+	static const int gridDistance = 2;
 
 private:
 	//ステージのマス目の配列

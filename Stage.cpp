@@ -15,14 +15,14 @@ void Stage::Initialize()
 	int countX = 0;
 
 	//(重いので二回に一回何もなくしている関係で "/ 2")
-	for (int y = 0; y < stageHeight / 2 + 1; y++)
+	for (int y = 0; y < stageHeight / gridDistance + 1; y++)
 	{
 		//y軸に要素追加
 		std::list<std::unique_ptr<Grid>>gridY;
 		stageGrids.push_back(std::move(gridY));
 
 		//(重いので二回に一回何もなくしている関係で "/ 2")
-		for (int x = 0; x < stageWidth / 2 + 1; x++)
+		for (int x = 0; x < stageWidth / gridDistance + 1; x++)
 		{
 			//イテレータ(Y軸)
 			std::list<std::list< std::unique_ptr<Grid>>>::iterator itrY = stageGrids.end();
@@ -59,22 +59,55 @@ void Stage::Draw()
 
 void Stage::OnTheGrid(Vector2 pos, int walkNum)
 {
+	////周囲の9マス全て調べる
+	//bool isEnclose = false;
+	//for (int i = -1; i < 2; i++)
+	//{
+	//	if (isEnclose) { break; }
+
+	//	//y軸
+	//	std::list<std::list< std::unique_ptr<Grid>>>::iterator itrY = stageGrids.begin();
+	//	//中心を得る
+	//	std::advance(itrY, (int)(pos.y / (float)gridDistance));
+	//	//ｙの分進める(-1～1)
+	//	std::advance(itrY, i);
+
+	//	for (int j = 0; j < 3; j++)
+	//	{
+	//		//x軸
+	//		std::list< std::unique_ptr<Grid>>::iterator itrX = itrY->begin();
+	//		//中心を得る
+	//		std::advance(itrX, (int)(pos.x / (float)gridDistance));
+	//		//xの分進める(-1～1)
+	//		std::advance(itrX, j);
+
+	//		//すでに塗られていたら囲う
+	//		if (itrX->get()->GetIsPainted() && itrX->get()->GetWalkNum() < walkNum)
+	//		{
+	//			EncloseGrid(0, walkNum);
+	//			isEnclose = true;
+	//			break;
+	//		}
+	//	}
+	//}
+
+
 	//y軸
 	std::list<std::list< std::unique_ptr<Grid>>>::iterator itrY = stageGrids.begin();
 	//ｙの分進める//(重いので二回に一回何もなくしている関係で "/ 2")
-	std::advance(itrY, (int)pos.y / 2);
+	std::advance(itrY, (int)(pos.y / (float)gridDistance));
 
 	//x軸
 	std::list< std::unique_ptr<Grid>>::iterator itrX = itrY->begin();
 	//xの分進める(重いので二回に一回何もなくしている関係で　/ 2)
-	std::advance(itrX, (int)pos.x / 2);
+	std::advance(itrX, (int)(pos.x / (float)gridDistance));
 
 	//すでに塗られていたら囲う
 	if (itrX->get()->GetIsPainted() && itrX->get()->GetWalkNum() < walkNum)
 	{
 		EncloseGrid(itrX->get()->GetWalkNum(), walkNum);
 	}
-	else
+	//else
 	{
 		//塗られたフラグをオン
 		itrX->get()->SetIsPainted(true);
@@ -121,19 +154,29 @@ void Stage::EncloseGrid(int lowNum, int highNum)
 			{
 				isEnclose[0] = true;
 				isEnclose[1] = true;
+				innerNumCount--;
 			}
-			//囲う途中
-			else if (isEnclose[0])
+			else
 			{
 				//囲ったwalkNumの間のマスに到達したら、塗り終わる(範囲内のカウントが一個だけだった時も)
-				if (itrX->get()->GetWalkNum() < highNum && itrX->get()->GetWalkNum() >= lowNum || innerNumCount < 2)
+				if (itrX->get()->GetWalkNum() < highNum && itrX->get()->GetWalkNum() >= lowNum)
 				{
-					isEnclose[0] = false;
-					break;
+					if (innerNumCount % 2 == 0) { isEnclose[0] = true; }
+					else { isEnclose[0] = false; }
+
+					innerNumCount--;
+				}
+				//囲う途中
+				else if (isEnclose[0])
+				{
+					itrX->get()->SetIsPainted(true);
+					//itrX->get()->SetWalkNum(highNum);
 				}
 
-				itrX->get()->SetIsPainted(true);
-				//itrX->get()->SetWalkNum(highNum);
+			}
+			if (innerNumCount <= 0)
+			{
+				break;
 			}
 
 			//カウント

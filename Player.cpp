@@ -15,9 +15,9 @@ void Player::Update()
 	//1フレーム前の座標
 	oldPos = pos;
 
-	//移動
-	pos.x += ((int)(CheckHitKey(KEY_INPUT_RIGHT) || CheckHitKey(KEY_INPUT_D)) - (int)(CheckHitKey(KEY_INPUT_LEFT) || CheckHitKey(KEY_INPUT_A))) * 2.0f;
-	pos.y += ((int)(CheckHitKey(KEY_INPUT_DOWN) || CheckHitKey(KEY_INPUT_S)) - (int)(CheckHitKey(KEY_INPUT_UP) || CheckHitKey(KEY_INPUT_W))) * 2.0f;
+	//移動()
+	pos.x += (float)((int)(CheckHitKey(KEY_INPUT_RIGHT) || CheckHitKey(KEY_INPUT_D)) - (int)(CheckHitKey(KEY_INPUT_LEFT) || CheckHitKey(KEY_INPUT_A))) * (float)Stage::gridDistance;
+	pos.y += (float)((int)(CheckHitKey(KEY_INPUT_DOWN) || CheckHitKey(KEY_INPUT_S)) - (int)(CheckHitKey(KEY_INPUT_UP) || CheckHitKey(KEY_INPUT_W))) * (float)Stage::gridDistance;
 
 	//制限
 	pos.x = clamp(pos.x, 0.0f, (float)Stage::stageWidth);
